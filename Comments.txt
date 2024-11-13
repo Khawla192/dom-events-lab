@@ -1,0 +1,201 @@
+/*-------------------------------- Constants --------------------------------*/
+
+/*-------------------------------- Variables --------------------------------*/
+
+/*------------------------ Cached Element References ------------------------*/
+
+
+const oneButton = document.getElementById('one')
+const twoButton = document.getElementById('two')
+const threeButton = document.getElementById('three')
+const fourButton = document.getElementById('four')
+const fiveButton = document.getElementById('five')
+const sixButton = document.getElementById('six')
+const sevenButton = document.getElementById('seven')
+const eightButton = document.getElementById('eight')
+const nineButton = document.getElementById('nine')
+const zeroButton = document.getElementById('zero')
+
+const divideButton = document.getElementById('divide')
+const multiplyButton = document.getElementById('multiply')
+const subtractButton = document.getElementById('subtract')
+const addButton = document.getElementById('add')
+const clearButton = document.getElementById('clear')
+
+
+const numberElement = document.querySelectorAll('.button number')
+
+const operatorElement = document.querySelectorAll('.button operator')
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+oneButton.addEventListener('click', display)
+twoButton.addEventListener('click', display)
+threeButton.addEventListener('click', display)
+fourButton.addEventListener('click', display)
+fiveButton.addEventListener('click', display)
+sixButton.addEventListener('click', display)
+sevenButton.addEventListener('click', display)
+eightButton.addEventListener('click', display)
+nineButton.addEventListener('click', display)
+zeroButton.addEventListener('click', display)
+
+addButton.addEventListener('click', addition)
+subtractButton.addEventListener('click', subtraction)
+multiplyButton.addEventListener('click', multplication)
+divideButton.addEventListener('click', division)
+clearButton.addEventListener('click', clear)
+
+numberElement.forEach((number) => {
+    number.addEventListener('click', display)
+    console.log(number.target.innerText)
+})
+
+
+operatorElement.forEach((operator) => {
+    operator.addEventListener('click', operation)
+    console.log(operator.target.innerText)
+})
+
+
+/*-------------------------------- Functions --------------------------------*/
+
+const operationFunction = (operator) => {
+    if (operator.target.innerText === '*') {
+        result = firstNumber * secondNumber
+    } else if (operator.target.innerText === '/') {
+        result = firstNumber / secondNumber
+    } else if (operator.target.innerText === '+') {
+        result = firstNumber + secondNumber
+    } else if (operator.target.innerText === '-') {
+        result = firstNumber - secondNumber
+    } else if (operator.target.innerText === 'C') {
+        firstNumber = ''
+        secondNumber = ''
+        operator = null
+    }
+}
+
+// Zainab work *************************************************************************************************
+buttons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+        // if it is a number
+        if(event.target.classList.contains("number")) {
+            if(operator === null) {
+                firstNumber += event.target.innerText
+                displayEl.innerText = firstNumber
+            } else {
+                secondNumber += event.target.innerText
+                displayEl.innerText = secondNumber
+            }
+        }
+        // if it is an operator
+        else if (event.target.classList.contains("operator")){
+            if (firstNumber !== '') {
+                operator = event.target.innerText   
+            }
+        } 
+        // if it's equals
+        
+        else if (event.target.classList.contains("equals")) {
+            calculate()
+        }
+    })
+})
+/*-------------------------------- Functions --------------------------------*/
+function calculate() {
+    if(firstNumber !== '' && secondNumber !== '' && operator !== null) {
+        let num1 = parseFloat(firstNumber)
+        let num2 = parseFloat(secondNumber)
+        // do the calculation
+        if (operator === '+') {
+            result = num1 + num2
+        } else if(operator === '-') {
+            result = num1 - num2
+        } else if(operator === '*') {
+            result = num1 * num2
+        } else if(operator === '/') {
+            result = num1 / num2
+        }
+    }
+}
+
+// The final correct code
+/*-------------------------------- Constants --------------------------------*/
+
+
+
+/*-------------------------------- Variables --------------------------------*/
+
+let firstNumber = ''
+let secondNumber = ''
+let mathOperator = null
+let result = 0
+
+/*------------------------ Cached Element References ------------------------*/
+
+const displayElement = document.querySelector('.display')
+const buttonsElement = document.querySelectorAll('.button')
+const equalButtonElement = document.getElementById('equal')
+const clear = document.getElementById("clear")
+
+/*-------------------------------- Functions --------------------------------*/
+
+const display = (event) => {
+    if (event.target.classList.contains('number'))  {
+        if (mathOperator === null){
+            firstNumber += event.target.innerText
+            displayElement.innerText = firstNumber
+        } else {
+            secondNumber += event.target.innerText
+            displayElement.innerText = firstNumber + mathOperator + secondNumber
+        }
+    } else if (event.target.classList.contains('operator'))  {
+        let selectedOperator = event.target.classList.contains('operator')
+        if (selectedOperator !== 'C') {
+            if (firstNumber !== '') {
+                mathOperator = event.target.innerText
+                displayElement.innerText = firstNumber + mathOperator
+                calculatorFunction()
+            }
+        } else {
+            displayElement.innerText = ''
+            firstNumber = ''
+            secondNumber = ''
+            mathOperator = null
+            result = 0
+        }
+    } else if (equalButtonElement)  {
+        calculatorFunction()
+    } 
+}
+
+const clearFunction = () => document.location.reload()
+
+const calculatorFunction = () => {
+    if (firstNumber !== '' && secondNumber !== '' && mathOperator) {
+        let num1 = parseFloat(firstNumber)
+        let num2 = parseFloat(secondNumber)
+
+        if (mathOperator === '+') {
+            result = num1 + num2
+            displayElement.innerText = mathOperator
+        } else if (mathOperator === '-') {
+            result = num1 - num2
+        } else if (mathOperator === '*') {
+            result = num1 * num2
+        } else if (mathOperator === '/') {
+            result = num1 / num2
+        } 
+
+        displayElement.innerText = result
+    }
+  }
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+buttonsElement.forEach((button) => {
+    button.addEventListener('click', display)
+})
+
+clear.addEventListener("click", clearFunction)
